@@ -1,0 +1,112 @@
+<div *ngIf="articleLoading" class="">article loading...</div>
+<div *ngIf="!articleLoading" class="">
+
+
+  <div *ngIf="articleDto === null"
+    class="font-bold text-3xl text-theme-5 text-center"
+  >
+    Article not found :(
+  </div>
+
+  <form *ngIf="articleDto !== null"
+    [formGroup]="editForm"
+    (ngSubmit)="onSubmit()"
+    class="flex flex-col items-stretch gap-4 mx-auto w-full bg-theme-4  py-4 px-3 rounded-md"
+  >
+    <div class="flex flex-row items-start justify-between">
+
+      <div class="text-2xl font-bold text-theme-1"> Article</div>
+      <button type="button"
+        class="rounded-md bg-theme-1 px-2 py-1 text-theme-5 cursor-pointer"
+        (click)="toggleEditing()"
+      >Toggle Edit
+      </button>
+    </div>
+
+    <div
+      *ngIf="serverError"
+      class="border border-red-500 p-2 text-theme-2"
+    >
+      <pre>{{serverError}}</pre>
+    </div>
+
+    <div
+      *ngIf="serverMessage"
+      class="border border-theme-1 p-2 text-theme-2"
+    >
+      <pre>{{serverMessage}}</pre>
+    </div>
+
+    <div class="input-wrapper">
+      <label class="font-semibold text-xl">
+        Title
+      </label>
+      <textarea
+        autofocus
+        type="text"
+        class="input-element"
+        formControlName="title"
+      ></textarea>
+      <div *ngIf="formTitle?.errors?.['required']">*required</div>
+    </div>
+
+    <div class="input-wrapper">
+      <label class="font-semibold text-xl">
+        Description
+      </label>
+      <textarea type="text"
+        class="input-element"
+        formControlName="description"
+      ></textarea>
+      <div *ngIf="formDescription?.errors?.['required']">*required</div>
+    </div>
+
+    <div class="input-wrapper">
+      <label class="font-semibold text-xl">
+        Body
+      </label>
+      <textarea type="text"
+        class="input-element"
+        formControlName="body"
+      ></textarea>
+
+      <div *ngIf="formBody?.errors?.['required']">*required</div>
+    </div>
+
+    <div class="input-wrapper">
+      <label class="font-semibold text-xl">
+        Tags
+      </label>
+      <input type="text" class="input-element" formControlName="tags">
+      parsed tags:
+      <div class="font-mono flex flex-row w-full flex-wrap-reverse gap-2">
+        <div *ngFor="let tag of formTags?.value | stringsplit | unique"
+          class="bg-theme-3 text-theme-1 rounded-xl px-4 py-1"
+        >{{tag}}</div>
+      </div>
+    </div>
+
+    <div class="my-4"></div>
+
+    <div class="flex gap-4">
+
+      <button
+        *ngIf="editForm.enabled"
+        [disabled]="editForm.invalid || editForm.untouched || !editForm.dirty"
+        class="submit-button basis-3/5"
+        type="submit"
+      >
+        Update article
+      </button>
+
+      <button
+        *ngIf="editForm.enabled"
+        (click)="deleteArticle(articleDto.slug)"
+        class="submit-button basis-2/5"
+        type="button"
+      >
+        Delete article
+      </button>
+    </div>
+  </form>
+</div>

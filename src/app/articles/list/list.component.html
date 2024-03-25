@@ -1,0 +1,54 @@
+<div class="flex flex-col gap-2">
+
+  <a routerLink="/articles/new"
+    class="bg-theme-4 text-theme-1 py-2 px-4 rounded-md font-semibold flex justify-between items-center"
+  >
+    <span>create an article</span>
+    <span class="text-xl">+</span>
+  </a>
+
+  <div
+    *ngIf="serverError"
+    class="border border-red-500 p-2 text-theme-2"
+  >
+    <pre>{{serverError}}</pre>
+  </div>
+
+  <div class="flex flex-col gap-2 mt-4">
+    <div *ngIf="articlesLoading">articles loading</div>
+    <div *ngIf="!articlesLoading">article count: {{articlesCount}}</div>
+    <div class="border-b border-theme-1"></div>
+
+    <div *ngIf="!articlesLoading">
+
+      <ul *ngIf="articles.length > 0"
+        class="flex flex-col gap-4 w-full md:w-4/5 md:mx-auto"
+      >
+        <li *ngFor="let article of articles"
+
+          class="flex flex-col gap-2 w-full border border-theme-1 pb-2"
+        >
+          <a routerLink="/articles/{{article.slug}}"
+            class="cursor-pointer flex flex-row items-baseline justify-between bg-theme-1"
+          >
+            <div class="font-bold text-2xl px-2 text-theme-4 py-1">{{article.title}}</div>
+            <div class="italic text-lg px-2 text-theme-4">{{article.updated | date}}</div>
+          </a>
+
+          <div class="font-semibold text-lg px-2">{{article.description}}</div>
+          <div class="font-semibold text-lg flex flex-row justify-between text-right px-2" >
+            <div class="flex items-start gap-2">
+              Tags: <div class="rounded-md text-sm py-1 px-2 bg-theme-3" *ngFor="let tag of article.tagList">{{tag}}</div>
+            </div>
+            <button
+              (click)="deleteArticle(article.slug)"
+              class="bg-theme-5 text-theme-1 rounded-md px-2 py-1 text-sm"
+            >DEL</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>

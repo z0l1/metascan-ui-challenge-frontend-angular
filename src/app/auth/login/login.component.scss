@@ -1,0 +1,11 @@
+.input-element {
+  @apply text-xl p-2 border-2 rounded-md outline-none border-transparent focus:border-theme-2 font-mono
+}
+
+.input-wrapper {
+  @apply flex flex-col gap-1 text-theme-1
+}
+
+.submit-button {
+  @apply bg-theme-1 font-semibold text-xl text-theme-5 px-4 py-2 rounded-md disabled:opacity-50
+}

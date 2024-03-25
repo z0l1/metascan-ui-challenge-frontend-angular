@@ -1,0 +1,81 @@
+<form [formGroup]="updateForm" (ngSubmit)="onSubmit()"
+  class="flex flex-col items-stretch gap-4 mx-auto w-full lg:w-[25rem] bg-theme-4  py-4 px-3 rounded-md"
+>
+  <div class="flex flex-row justify-between items-start">
+    <div class="text-2xl font-bold text-theme-1">My Profile</div>
+    <a *ngIf="user?.image" target="_blank" [href]="user?.image">
+      <img *ngIf="user?.image"
+        [src]="user?.image ?? ''"
+        alt="profile picture"
+        class="w-40 aspect-square object-cover border border-theme-1"
+      />
+    </a>
+  </div>
+
+  <div
+    *ngIf="serverError"
+    class="border border-red-500 p-2 text-theme-2"
+  >
+    <pre>{{serverError}}</pre>
+  </div>
+
+  <div
+    *ngIf="serverMessage"
+    class="border border-theme-1 p-2 text-theme-2"
+  >
+    <pre>{{serverMessage}}</pre>
+  </div>
+
+  <div class="input-wrapper">
+    <label class="font-semibold text-xl">
+      username
+    </label>
+    <input
+      autofocus
+      type="text"
+      class="input-element"
+      formControlName="username"
+    >
+
+    <div *ngIf="formUsername?.errors?.['required']">*required</div>
+    <div *ngIf="formUsername?.errors?.['minlength']">*must be at least 5
+      characters
+    </div>
+  </div>
+
+  <div class="input-wrapper">
+    <label class="font-semibold text-xl">
+      email
+    </label>
+    <input type="email" class="input-element" formControlName="email">
+
+    <div *ngIf="formEmail?.errors?.['required']">*required</div>
+    <div *ngIf="formEmail?.errors?.['minlength']">*minimum length is 5</div>
+    <div *ngIf="formEmail?.errors?.['email']">*invalid email format</div>
+  </div>
+
+  <div class="input-wrapper">
+    <label class="font-semibold text-xl">
+      BIO
+    </label>
+    <textarea type="text"
+      class="input-element"
+      formControlName="bio"
+    ></textarea>
+  </div>
+
+  <div class="input-wrapper">
+    <label class="font-semibold text-xl">
+      image url
+    </label>
+    <input type="text" class="input-element" formControlName="image">
+  </div>
+
+  <div class="my-4"></div>
+
+  <button [disabled]="updateForm.invalid || updateForm.untouched || !updateForm.dirty"
+    class="submit-button basis-3/5"
+    type="submit"
+  >update data
+  </button>
+</form>

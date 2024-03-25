@@ -1,0 +1,22 @@
+<nav class="bg-theme-1 w-full h-10 flex justify-between px-4 py-2">
+  <div *ngIf="isLoggedIn"  class="flex items-center gap-4">
+    <a class="nav-link" routerLink="/users">users</a>
+    <a class="nav-link" routerLink="/articles">articles</a>
+  </div>
+
+  <div></div>
+
+  <div class="flex items-center gap-4">
+    <a *ngIf="!isLoggedIn" class="nav-link" routerLink="/auth/login">log in</a>
+    <span *ngIf="isLoggedIn" class="text-theme-3">
+      hi,
+    <a class="nav-link" routerLink="/users/me">{{currentUser?.username}}</a>
+    </span>
+    |
+    <button *ngIf="isLoggedIn" class="nav-link" (click)="logout()" >log out</button>
+  </div>
+</nav>
+
+<div class="container mx-auto pt-2">
+  <router-outlet />
+</div>
